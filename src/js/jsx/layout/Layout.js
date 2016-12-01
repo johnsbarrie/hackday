@@ -18,6 +18,7 @@ export default class Layout extends React.Component {
 						{  title:"Home", url:"home"  },
 						{  title:"Spinner", url:"spinner"  },
 						{  title:"QRcode", url:"qrcode"  },
+						{  title:"Oscillator", url:"oscillator"  }
 					]
 		}
 	}
