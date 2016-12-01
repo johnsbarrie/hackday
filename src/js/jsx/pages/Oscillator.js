@@ -21,7 +21,7 @@ export default class Oscillator extends React.Component {
 		this.oscillator.connect(this.gainNode);
 		this.gainNode.connect(audioCtx.destination);
 
-		this.maxFreq = 600;
+		this.maxFreq = 6000;
 		this.maxVol = 1.0;
 
 		this.oscillator.detune.value = 300;
