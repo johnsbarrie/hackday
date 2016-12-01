@@ -5,13 +5,13 @@ import AppModel from '../../stores/AppModel'
 export default class Oscillator extends React.Component {
 
 	componentWillMount () {
+		var AudioContext = window.AudioContext || window.webkitAudioContext;
 		this.type='triangle';
 	}
 	/**
 	 triggered by click on button
 	*/
 	clicked(){
-		var AudioContext = window.AudioContext || window.webkitAudioContext;
 		var audioCtx = new AudioContext();
 
 		this.oscillator = audioCtx.createOscillator();
@@ -21,14 +21,8 @@ export default class Oscillator extends React.Component {
 		this.oscillator.connect(this.gainNode);
 		this.gainNode.connect(audioCtx.destination);
 
-		var WIDTH = window.innerWidth;
-		var HEIGHT = window.innerHeight;
-
 		this.maxFreq = 600;
 		this.maxVol = 1.0;
-
-		var initialFreq = 300;
-		var initialVol = 0.001;
 
 		this.oscillator.detune.value = 300;
 		document.onmousemove = (e)=> { this.updatePage(e) };
@@ -36,14 +30,14 @@ export default class Oscillator extends React.Component {
 	}
 
 	updatePage(e) {
-	    var curX = (window.Event) ? e.pageX : event.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
-	    var curY  = (window.Event) ? e.pageY : event.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
+		var curX = (window.Event) ? e.pageX : event.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
+		var curY  = (window.Event) ? e.pageY : event.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
 
-			var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
-			var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+		var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+		var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
 
-	    this.oscillator.frequency.value = (curX/w) * this.maxFreq ;
-	    this.gainNode.gain.value = (curY/h) * this.maxVol;
+		this.oscillator.frequency.value = (curX/w) * this.maxFreq ;
+		this.gainNode.gain.value = (curY/h) * this.maxVol;
 	}
 
 	setOscillatorType(e){
@@ -65,9 +59,6 @@ export default class Oscillator extends React.Component {
 								<option value="custom">custom</option>
 							</select>
 							<button class="btn btn-info" onClick={ ()=>this.clicked() }>Add Oscillator</button>
-						</div>
-						<div>
-
 						</div>
 					</div>
 				</div>
