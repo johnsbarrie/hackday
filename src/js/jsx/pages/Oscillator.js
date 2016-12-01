@@ -35,7 +35,7 @@ export default class Oscillator extends React.Component {
 		this.oscillator.start(0);
 	}
 
- updatePage(e) {
+	updatePage(e) {
 	    var curX = (window.Event) ? e.pageX : event.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
 	    var curY  = (window.Event) ? e.pageY : event.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
 
