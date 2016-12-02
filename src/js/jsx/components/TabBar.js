@@ -10,7 +10,7 @@ export default class TabBar extends React.Component {
 		this.location = context.location;
 	}
 	/**
-	Render tab bar using 
+	Render tab bar using
 	*/
 	render () {
 		return (
@@ -27,6 +27,3 @@ TabBar.contextTypes = {
   router: React.PropTypes.object.isRequired,
   location: React.PropTypes.object
 };
-
-
- 
