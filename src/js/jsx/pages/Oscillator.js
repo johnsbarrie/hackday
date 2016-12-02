@@ -9,11 +9,18 @@ export default class Oscillator extends React.Component {
 	componentWillMount () {
 		var AudioContext = window.AudioContext || window.webkitAudioContext;
 		this.type='triangle';
+		this.state= { gain:0.2 };
+
 		var body=document.querySelector('body');
 		body.onkeydown = (e)=>this.keyDown(e);
 		this.oscillators=[];
 		this.ocillatorIndex=0;
-		this.audioCtx = new AudioContext();
+		this.audioCtx = new AudioContext()
+		this.masterGain = this.audioCtx.createGain();
+		this.masterGain.connect(this.audioCtx.destination);
+
+		this.state ={ gain:.2 };
+		this.masterGain.gain.value=this.state.gain;
 	}
 
 	keyDown(e) {
@@ -30,23 +37,24 @@ export default class Oscillator extends React.Component {
 			oscObj.oscillator = this.audioCtx.createOscillator();
 			oscObj.oscillator.type=this.type;
 			oscObj.gainNode = this.audioCtx.createGain();
-
+			//oscObj.gainNode.gain.value=.2;
 			oscObj.oscillator.connect(oscObj.gainNode);
-			oscObj.gainNode.connect(this.audioCtx.destination);
+			oscObj.gainNode.connect(this.masterGain);
 
-			this.maxFreq = 6000;
-			this.maxVol = 1.0;
 
-			oscObj.oscillator.detune.value = 300;
 
-			document.onmousemove = (e)=> { this.updatePage(e) };
 			oscObj.oscillator.start(0);
 
 			this.oscillators.push(oscObj);
 			this.ocillatorIndex=this.oscillators.length-1;
 			oscObj.id=this.ocillatorIndex;
 			this.setState(this.oscillators);
+	}
 
+	_volumeChanged(e){
+		this.state.gain=this.refs.volume.value;
+		this.masterGain.gain.value=this.state.gain;
+		this.setState(this.state);
 	}
 
 	updatePage(e) {
@@ -81,29 +89,17 @@ export default class Oscillator extends React.Component {
 			<div class="bd-example">
 				<div class="card">
 					<div class="card-block">
-						<p  class="card-text">Start Oscillator !</p>
 						<div>
-							<button class="btn btn-info" onClick={ ()=>this.clicked() }>Add Oscillator</button>
-						</div>
-
-						<div class="row" style={ style }>
-							{ this.oscillators.map((item, i )=>{
-								return ( <OscillatorButton key={i} item={item} onItemClick={ (e)=>this.modifyOscillator(e) } />); })
-							}
+							<button class="btn btn-info" onClick={ ()=>this.clicked() }>Add Instrument</button>
+							<input ref="volume" type="range" min="0" max="1.0" step="0.01" value={ this.state.gain } onChange={ (e)=>{ this._volumeChanged(e); } } />
 						</div>
 					</div>
-
 				</div>
-				<div class="card">
-					<div class="card-block">
-						<p  class="card-text">Controls</p>
-						<select ref='ocsillatorType' onChange={ (e)=> this.setOscillatorType(e) }>
-							<option value="sine">sine</option>
-							<option value="square">square</option>
-							<option value="sawtooth">sawtooth</option>
-							<option value="triangle">triangle</option>
-						</select>
-					</div>
+
+				<div class="row" style={ style }>
+					{ this.oscillators.map((item, i )=>{
+						return ( <OscillatorButton key={i} item={item} onItemClick={ (e)=>this.modifyOscillator(e) } />); })
+					}
 				</div>
 			</div>
 		)

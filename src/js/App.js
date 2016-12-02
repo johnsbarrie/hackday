@@ -14,7 +14,7 @@ React Router Setup
 ReactDOM.render(
 	<Router history={hashHistory}>
 		<Route path="/" component={Layout}>
-			<IndexRedirect to="/home" />
+			<IndexRedirect to="/qrcode" />
 			<Route path="home" component={Home}></Route>
 			<Route path="qrcode" component={QRCode}></Route>
 			<Route path="oscillator" component={ Oscillator }></Route>

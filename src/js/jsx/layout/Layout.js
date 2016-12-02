@@ -15,10 +15,8 @@ export default class Layout extends React.Component {
 		this.state={
 			title: "Welcome",
 			sections:[
-						{  title:"Home", url:"home"  },
-						{  title:"Spinner", url:"spinner"  },
 						{  title:"QRcode", url:"qrcode"  },
-						{  title:"Oscillator", url:"oscillator"  }
+						{  title:"Irritating Oscillator", url:"oscillator"  }
 					]
 		}
 	}
